@@ -18,9 +18,19 @@ func TestParser(t *testing.T) {
 			willError: true,
 		},
 		{
+			name:      `invalid`,
+			in:        "()",
+			willError: true,
+		},
+		{
 			name: `all`,
 			in:   `Jon Schlinkert <jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
 			want: [3]string{"Jon Schlinkert", "jon.schlinkert@sellside.com", "https://github.com/jonschlinkert"},
+		},
+		{
+			name: `only name`,
+			in:   `Jon Schlinkert`,
+			want: [3]string{"Jon Schlinkert", "", ""},
 		},
 		{
 			name: `name and url`,

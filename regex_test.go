@@ -1,23 +1,13 @@
 package pauthor
 
 import (
-	"strconv"
 	"testing"
 
 	"github.com/ImSingee/tt"
 )
 
-func author(s string) [][]string {
-	return _regex.FindAllStringSubmatch(s, -1)
-}
-
-func oneAuthor(s string) []string {
-	as := author(s)
-	if len(as) != 1 {
-		panic("Want 1 author but got " + strconv.Itoa(len(as)))
-	}
-
-	return as[0]
+func author(s string) []string {
+	return Regex().FindStringSubmatch(s)
 }
 
 func TestRegex(t *testing.T) {
@@ -55,7 +45,7 @@ func TestRegex(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got := oneAuthor(c.in)
+			got := author(c.in)
 
 			tt.AssertEqual(t, 4, len(got))
 			tt.AssertEqual(t, c.want[0], got[1])

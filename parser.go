@@ -21,7 +21,7 @@ func Parse(s string) (*Author, error) {
 		return nil, ErrIsEmpty
 	}
 
-	as := _regex.FindStringSubmatch(s)
+	as := Regex().FindStringSubmatch(s)
 	if len(as) != 4 {
 		return nil, ErrInvalid
 	}
