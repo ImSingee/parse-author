@@ -70,3 +70,52 @@ func TestParser(t *testing.T) {
 		})
 	}
 }
+
+func TestAuthor_String(t *testing.T) {
+	cases := []struct {
+		in   string
+		want string
+	}{
+		{
+			in:   `Jon Schlinkert <jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
+			want: `Jon Schlinkert <jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
+		},
+		{
+			in:   `Jon Schlinkert`,
+			want: "Jon Schlinkert",
+		},
+		{
+			in:   `Jon Schlinkert (https://github.com/jonschlinkert)`,
+			want: "Jon Schlinkert (https://github.com/jonschlinkert)",
+		},
+		{
+			in:   `Jon Schlinkert(https://github.com/jonschlinkert)`,
+			want: `Jon Schlinkert (https://github.com/jonschlinkert)`,
+		},
+		{
+			in:   `<jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
+			want: `<jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
+		},
+		{
+			in:   `Jon Schlinkert <jon.schlinkert@sellside.com>`,
+			want: `Jon Schlinkert <jon.schlinkert@sellside.com>`,
+		},
+		{
+			in:   ` Jon Schlinkert  <jon.schlinkert@sellside.com> `,
+			want: `Jon Schlinkert <jon.schlinkert@sellside.com>`,
+		},
+		{
+			in:   `Jon Schlinkert  <jon.schlinkert@sellside.com>(https://github.com/jonschlinkert)  `,
+			want: `Jon Schlinkert <jon.schlinkert@sellside.com> (https://github.com/jonschlinkert)`,
+		},
+	}
+
+	for _, c := range cases {
+		t.Run(c.in, func(t *testing.T) {
+			got, err := Parse(c.in)
+			tt.AssertIsNil(t, err)
+
+			tt.AssertEqual(t, c.want, got.String())
+		})
+	}
+}

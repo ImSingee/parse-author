@@ -28,3 +28,25 @@ func Parse(s string) (*Author, error) {
 
 	return &Author{Name: as[1], Email: as[2], Url: as[3]}, nil
 }
+
+func (a *Author) String() string {
+	buf := strings.Builder{}
+	buf.Grow(128)
+
+	if a.Name != "" {
+		buf.WriteString(a.Name)
+		buf.WriteByte(' ')
+	}
+	if a.Email != "" {
+		buf.WriteByte('<')
+		buf.WriteString(a.Email)
+		buf.WriteString("> ")
+	}
+	if a.Url != "" {
+		buf.WriteByte('(')
+		buf.WriteString(a.Url)
+		buf.WriteByte(')')
+	}
+
+	return strings.TrimSpace(buf.String())
+}
